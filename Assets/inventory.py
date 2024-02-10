@@ -1,6 +1,8 @@
 class Inventory:
-    def __init__(self, size:tuple) -> None:
-        self.items = [[None for _ in range(size[1])] for _ in range(size[0])]
+    def __init__(self, size:tuple, items=None) -> None:
+        self.items = items
+        if self.items is None:
+            self.items = [[None for _ in range(size[1])] for _ in range(size[0])]
     def __repr__(self) -> str:
         s = ""
         for row in self.items:
