@@ -38,13 +38,18 @@ d.cprint("Welcome, remember that you can type \"help\" to get a list of commands
 # The game loop:
 playing = True
 while playing:
-    choice = d.cinput(f"@{save['player']['name']}/ > ", Fore.GREEN, Fore.BLUE)
+    choice = d.cinput(f"@{player.name}{player.location} > ", Fore.GREEN, Fore.BLUE)
     if "quit" in choice:
         playing = False
     elif "help" in choice:
         d.cprint(Assets.commands.help(), wait=0.01)
     else:
-        d.cprint(Assets.commands.find(choice))
+        d.cprint(Assets.commands.find(choice, player))
+    save['player']['name'] = player.name
+    save['player']['inventory'] = player.inventory.items
+    save['player']['money'] = player.money
+    save['player']['computer'] = player.computer.inventory.items
+    Assets.save.save(save)
 d.cprint_art("Goodbye!", Fore.CYAN, "block2", 0.001)
 
 ##### ATTENTION! #####

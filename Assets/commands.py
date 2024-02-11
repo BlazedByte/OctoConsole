@@ -1,3 +1,6 @@
+import Assets.display as d
+import Assets.save
+
 def help() -> str:
     return """ Here is a list of commands you can use:
 
@@ -28,5 +31,24 @@ def help() -> str:
     << Others commands will be available depending on the mission you are in. >>
     """
 
-def find(command:str) -> str:
-    raise NotImplementedError("This function is not implemented yet.")
+def goto_settings(player):
+    player.location = "/settings"
+    return "You are now in the settings menu."
+def change_name(player):
+    new_name = d.cinput("What is your new name? > ", d.Fore.WHITE, d.Fore.BLUE)
+    player.name = new_name
+    return f"Your name has been changed to {new_name}."
+
+def find(command:str,player) -> str:
+    commands = {
+        "/":{
+            "settings":goto_settings,
+        },
+        "/settings":{
+            "change_name":change_name,
+        },
+    }
+    available_commands = commands[player.location]
+    for cmd, value in available_commands.items():
+        if cmd in command:
+            return value(player)

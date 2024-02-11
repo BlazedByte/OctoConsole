@@ -7,6 +7,7 @@ class Player:
         self.inventory = inventory
         self.computer = computer
         self.money = money
+        self.location = "/"
         if self.money is None:
             self.money = 0
         if self.computer is None:
