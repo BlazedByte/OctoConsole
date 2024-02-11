@@ -51,7 +51,7 @@ d.cprint_art("Goodbye!", Fore.CYAN, "block2", 0.001)
 ### VERSION DE DEV ###
 
 if d.cinput("Version de développement: vous alez supprimer le fichier de sauvegarde. y pour continuer. > ", Fore.RED) == "y":
-    save_file = '/Users/nash115/Documents/GitHub/OctoConsole/save.json'
+    save_file = 'save.json'
     if os.path.exists(save_file):
         os.remove(save_file)
         d.cprint('Save file deleted.', Fore.YELLOW)
