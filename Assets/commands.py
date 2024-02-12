@@ -52,3 +52,4 @@ def find(command:str,player) -> str:
     for cmd, value in available_commands.items():
         if cmd in command:
             return value(player)
+    return "Command not found. Please try again with a valid command."
