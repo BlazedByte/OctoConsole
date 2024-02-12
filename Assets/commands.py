@@ -35,7 +35,7 @@ def goto_settings(player):
     player.location = "/settings"
     return "You are now in the settings menu."
 def change_name(player):
-    new_name = d.cinput("What is your new name? > ", d.Fore.WHITE, d.Fore.BLUE)
+    new_name = d.cinput("What is your new name? > ", d.Fore.WHITE, d.Fore.CYAN)
     player.name = new_name
     return f"Your name has been changed to {new_name}."
 
@@ -52,4 +52,7 @@ def find(command:str,player) -> str:
     for cmd, value in available_commands.items():
         if cmd in command:
             return value(player)
+    if command == "/":
+        player.location = "/"
+        return None 
     return "Command not found. Please try again with a valid command."

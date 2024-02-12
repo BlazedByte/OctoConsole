@@ -17,7 +17,7 @@ save = Assets.save.load()
 # If the player is not new, load their environment
 if save['player']['name'] is None:
     d.cprint('Welcome <New player> to the OctoConsole game.', Fore.GREEN)
-    save['player']['name'] = d.cinput('What is your name? > ', Fore.WHITE, Fore.BLUE)
+    save['player']['name'] = d.cinput('What is your name? > ', Fore.WHITE, Fore.CYAN)
     player = Assets.player.Player(save['player']['name'])
     save['player']['inventory'] = player.inventory.items
     save['player']['money'] = player.money
@@ -38,13 +38,15 @@ d.cprint("Welcome, remember that you can type \"help\" to get a list of commands
 # The game loop:
 playing = True
 while playing:
-    choice = d.cinput(f"@{player.name}{player.location} > ", Fore.GREEN, Fore.BLUE)
+    choice = d.cinput(f"@{player.name}{player.location} > ", Fore.GREEN, Fore.CYAN)
     if "quit" in choice:
         playing = False
     elif "help" in choice:
         d.cprint(Assets.commands.help(), wait=0.01)
     else:
-        d.cprint(Assets.commands.find(choice, player))
+        r = Assets.commands.find(choice, player)
+        if r is not None:
+            d.cprint(r)
     save['player']['name'] = player.name
     save['player']['inventory'] = player.inventory.items
     save['player']['money'] = player.money
@@ -55,7 +57,7 @@ d.cprint_art("Goodbye!", Fore.CYAN, "block2", 0.001)
 ##### ATTENTION! #####
 ### VERSION DE DEV ###
 
-if d.cinput("Version de développement: vous alez supprimer le fichier de sauvegarde. y pour continuer. > ", Fore.RED) == "y":
+if d.cinput("Version de développement: vous alez supprimer le fichier de sauvegarde. y pour continuer. > ", Fore.RED, wait=0.01) == "y":
     save_file = 'save.json'
     if os.path.exists(save_file):
         os.remove(save_file)
