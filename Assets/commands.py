@@ -32,6 +32,8 @@ def help() -> str:
 
     << Others commands will be available depending on the mission you are in. >>
     """
+def help_mission() -> str:
+    return help()
 
 # /
 def goto_settings(player):
@@ -79,7 +81,7 @@ def select_mission(player):
     return f"You have taken the mission {player.mission.name}."
 
 
-def find(command:str,player) -> str:
+def find_cmd(command:str,player) -> str:
     if command == "/":
         player.location = "/"
         return None
@@ -107,4 +109,16 @@ def find(command:str,player) -> str:
     for cmd, value in available_commands.items():
         if cmd in command:
             return value(player)
+    return "Command not found. Please try again with a valid command."
+
+def find_cmd_mission(command:str,player) -> str:
+    if command == "/":
+        player.location = "/"
+        return None
+    raise NotImplementedError
+    if "cd" in command:
+        loc = command[3:]
+        raise NotImplementedError
+        player.location = command[3:]
+        return f"You are now in the {player.location} menu."
     return "Command not found. Please try again with a valid command."

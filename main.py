@@ -39,16 +39,28 @@ playing = True
 while playing:
     if player.mission is not None:
         choice = d.cinput(f"@{player.name}{player.location} {d.format_color_str('Mission:'+str(player.mission),d.Fore.YELLOW, d.Fore.GREEN)}> ", d.Fore.GREEN, d.Fore.CYAN)
+        if "quit" in choice:
+            d.cprint("You are going to quit during a mission, all progress will be lost and you will not be able to recover the money spent on the mission.", d.Fore.RED)
+            if d.cinput("Are you sure? y/n > ", d.Fore.RED) in ["y","yes","Y","YES"]:
+                playing = False
+            else:
+                d.cprint("Good choice.", d.Fore.GREEN)
+        elif "help" in choice:
+            d.cprint(Assets.commands.help_mission(), wait=0.01)
+        else:
+            r = Assets.commands.find_cmd_mission(choice, player)
+            if r is not None:
+                d.cprint(r)
     else:
         choice = d.cinput(f"@{player.name}{player.location} > ", d.Fore.GREEN, d.Fore.CYAN)
-    if "quit" in choice:
-        playing = False
-    elif "help" in choice:
-        d.cprint(Assets.commands.help(), wait=0.01)
-    else:
-        r = Assets.commands.find(choice, player)
-        if r is not None:
-            d.cprint(r)
+        if "quit" in choice:
+            playing = False
+        elif "help" in choice:
+            d.cprint(Assets.commands.help(), wait=0.01)
+        else:
+            r = Assets.commands.find_cmd(choice, player)
+            if r is not None:
+                d.cprint(r)
     save['player']['name'] = player.name
     save['player']['inventory'] = player.inventory.items
     save['player']['money'] = player.money
