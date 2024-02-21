@@ -5,6 +5,7 @@ class Player:
     def __init__(self, name, inventory=None, computer=None, money=None) -> None:
         self.name = name
         self.location = "/"
+        self.mission = None
         if money is None:
             self.money = 0
         else:

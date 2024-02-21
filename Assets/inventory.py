@@ -13,3 +13,5 @@ class Inventory:
                     s += "· "
             s += "\n"
         return s[:-1]
+    def __len__(self) -> int:
+        return len(self.items)*len(self.items[0])
