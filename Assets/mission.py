@@ -1,11 +1,11 @@
 import random
 
 def generate_pwd():
+    return "15082023" # The correct code in the tree
     s = ""
     leng = random.randint(6, 15)
     for i in range(leng):
         s += chr(random.randint(33, 126))
-    return "15082023" # The correct code in the tree
     return s
 
 def generate_tree():
@@ -28,5 +28,30 @@ class Mission:
         self.password = generate_pwd()
         self.completed = False
         self.tree = generate_tree()
+
+        self.try_count = 3
     def __repr__(self) -> str:
         return self.name
+    
+    def try_pwd(self, pwd:str):
+        """Try to enter the master password. If the password is incorrect, a message will be printed.
+
+        Parameters
+        ----------
+        pwd : str
+            The password to try
+
+        Returns
+        -------
+        Bool / None
+            True if the password is correct, False if the mission failed, None if the password is incorrect.
+        """
+        if pwd == self.password:
+            self.completed = True
+            return True
+        self.try_count -= 1
+        print("Incorrect password. You have", self.try_count, "tries left.")
+        if self.try_count == 0:
+            self.completed = True
+            return False
+        return None

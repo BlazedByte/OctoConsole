@@ -10,7 +10,7 @@ def clear():
 def format_color_str(thing:str, color=Fore.RESET, reset_color=Fore.RESET) -> str:
     return f"{color}{thing}{reset_color}"
 
-def cprint(thing:str, color=Fore.RESET, wait:float=0.03) -> None:
+def cprint(thing:str, color=Fore.RESET, wait:float=0.005) -> None:
     """Prints a string progressively, as if it were being typed out.
 
     Parameters

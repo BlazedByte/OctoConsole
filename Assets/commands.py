@@ -5,35 +5,34 @@ import Assets.mission as mission
 
 def help() -> str:
     return """ Here is a list of commands you can use:
-
-##### On your base :
     help - Shows this message.
     quit - Quits the game.
 
     inventory - Open your inventory menu.
+        In the inventory menu:
+            show - Shows your inventory and your money
     computer - Open the computer menu.
-
-    money - Shows your money.
-    shop - Open the shop menu.
-    buy - Buy something from the shop.
-    sell - Sell something from your inventory.
-
-    mission - Open the missions menu.
-
-    return - Returns to the previous menu.
-
-##### When you are in a mission :
+        In the computer menu:
+            show - Shows your computer inventory.
+    missions - Open the missions menu.
+        In the missions menu:
+            select - Select a mission to take.
+    settings - Open the settings menu.
+        In the settings menu:
+            change_name - Change your name.
+    / - Go back to the main menu."""
+def help_mission() -> str:
+    return """Here is a list of commands you can use:
     help - Shows this message.
     quit - Quits the game.
     abort - Aborts the mission.
 
-    inventory - Open your inventory menu.
-    computer - Open the computer menu.
-
-    << Others commands will be available depending on the mission you are in. >>
-    """
-def help_mission() -> str:
-    return help()
+    try <password> - Try to enter the master password to complete the mission.
+    ls - List the files and folders in the current location.
+    cat <file> - Show the content of a file.
+    cd <folder> - Go to a folder.
+    cd .. - Go back to the parent folder.
+    / - Go back to the main folder."""
 
 # /
 def goto_settings(player):
@@ -78,6 +77,7 @@ def select_mission(player):
         except:
             choice = None
     player.mission = missions_list[choice]
+    player.location = "/"
     return f"You have taken the mission {player.mission.name}."
 
 
@@ -115,10 +115,73 @@ def find_cmd_mission(command:str,player) -> str:
     if command == "/":
         player.location = "/"
         return None
-    raise NotImplementedError
-    if "cd" in command:
+    if "abort" in command:
+        if d.cinput("Are you sure? y/n > ", d.Fore.RED) in ["y","yes","Y","YES"]:
+            player.mission = None
+            player.location = "/"
+            return "You have aborted the mission."
+    if command.startswith("try "):
+        pwd = command[4:]
+        r = player.mission.try_pwd(pwd)
+        if r:
+            player.mission = None
+            player.money += 1000
+            player.location = "/"
+            return "You have completed the mission. You have earned 1000⚛."
+        elif r is False:
+            player.mission = None
+            return "You have failed the mission."
+        else:
+            return None
+    if command == "ls":
+        s = ""
+        dict_location = player.mission.tree
+        if player.location != "/":
+            list_location = player.location.split("/")
+            list_location.pop(0)
+            for l in list_location:
+                dict_location = dict_location[l]
+        for n,t in dict_location.items():
+            if type(t) == str:
+                s+= f"-- {n}\n"
+            else:
+                s+= f"d- {n}\n"
+        return s[:-1]
+    if command.startswith("cat "):
+        file = command[4:]
+        dict_location = player.mission.tree
+        if player.location != "/":
+            list_location = player.location.split("/")
+            list_location.pop(0)
+            for l in list_location:
+                dict_location = dict_location[l]
+        if file in dict_location.keys():
+            if type(dict_location[file]) == str:
+                return dict_location[file]
+            return "This is a folder, not a file."
+        return "This file does not exist."
+    if command.startswith("cd "):
         loc = command[3:]
-        raise NotImplementedError
-        player.location = command[3:]
-        return f"You are now in the {player.location} menu."
+        if loc == "..":
+            if player.location == "/":
+                return "You are already at the root of the mission."
+            list_location = player.location.split("/")
+            list_location.pop(-1)
+            player.location = "/".join(list_location)
+            return f"You are now in the {player.location} folder."
+        dict_location = player.mission.tree
+        if player.location != "/":
+            list_location = player.location.split("/")
+            list_location.pop(0)
+            for l in list_location:
+                dict_location = dict_location[l]
+        if loc in dict_location.keys():
+            if type(dict_location[loc]) == str:
+                return "This is a file, not a folder."
+            if player.location == "/":
+                player.location += loc
+            else:
+                player.location += "/"+loc
+            return f"You are now in the {player.location} folder."
+        return "This folder does not exist."
     return "Command not found. Please try again with a valid command."

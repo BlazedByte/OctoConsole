@@ -46,7 +46,7 @@ while playing:
             else:
                 d.cprint("Good choice.", d.Fore.GREEN)
         elif "help" in choice:
-            d.cprint(Assets.commands.help_mission(), wait=0.01)
+            d.cprint(Assets.commands.help_mission(), wait=0.001)
         else:
             r = Assets.commands.find_cmd_mission(choice, player)
             if r is not None:
@@ -56,7 +56,7 @@ while playing:
         if "quit" in choice:
             playing = False
         elif "help" in choice:
-            d.cprint(Assets.commands.help(), wait=0.01)
+            d.cprint(Assets.commands.help(), wait=0.001)
         else:
             r = Assets.commands.find_cmd(choice, player)
             if r is not None:
