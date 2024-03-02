@@ -1,4 +1,11 @@
 import random
+import datetime
+
+def generate_date(start="1990-01-01", end=datetime.datetime.now().strftime("%Y-%m-%d")):
+    start = datetime.datetime.strptime(start, "%Y-%m-%d")
+    end = datetime.datetime.strptime(end, "%Y-%m-%d")
+    result = start + (end - start) * random.random()
+    return result.strftime("%Y-%m-%d")
 
 def generate_pwd():
     return "15082023" # The correct code in the tree
