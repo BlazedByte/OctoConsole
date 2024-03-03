@@ -64,11 +64,11 @@ def show_computer(player):
 
 # /missions
 def select_mission(player):
-    missions_list = [mission.Mission(random.randint(1000000,9999999)) for _ in range(len(player.computer.inventory))]
-    s = "Available missions:\n"
-    for i, m in enumerate(missions_list):
-        s += f"{i} > {m.name}\n"
-    d.cprint(s, d.Fore.LIGHTBLUE_EX, 0.01)
+    missions_list = []
+    d.cprint("Available missions:", d.Fore.LIGHTBLUE_EX, 0.01)
+    for i in range(len(player.computer.inventory)):
+        missions_list.append(mission.Mission(random.randint(1000000,9999999)))
+        d.cprint(f"{i} > {missions_list[i].name}", d.Fore.LIGHTBLUE_EX, 0.01)
     choice = None
     while not(choice in range(len(missions_list))):
         choice = d.cinput("Which mission do you want to take? > ", d.Fore.RESET, d.Fore.CYAN)
