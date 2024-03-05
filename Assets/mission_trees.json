@@ -1,0 +1,24 @@
+{
+    "date": [
+        {
+            "private":{
+                "holidays":"I went to london : {{date-r}},\nto paris : {{the-pwd}},\nto new-york : {{date-r}};\nI love travelling !",
+                "passwords":{
+                    "administrator":"The new password is when I went to Paris !",
+                    "my-phone":"The password of my phone is : {{pin-code}}"
+                }
+            }
+        }
+    ],
+    "random":[
+        {
+            "private":{
+                "holidays":"I went to london : {{date-r}},\nto paris : {{date-r}},\nto new-york : {{date-r}};\nI love travelling !",
+                "passwords":{
+                    "administrator":"KEEP IT SECRET ! The password is : {{the-pwd}}",
+                    "my-phone":"The password of my phone is : {{pin-code}}"
+                }
+            }
+        }
+    ]
+}

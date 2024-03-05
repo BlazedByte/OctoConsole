@@ -1,5 +1,6 @@
 import random
 import datetime
+import json
 
 def generate_date(start="1990-01-01", end=datetime.datetime.now().strftime("%Y-%m-%d")):
     start = datetime.datetime.strptime(start, "%Y-%m-%d")
@@ -16,26 +17,10 @@ def generate_pin():
     return str(random.randint(100000, 999999))
 
 def generate_tree(pwd_type:str):
-    if pwd_type == "date":
-        tree = {
-            "private":{
-                "holidays":"I went to london : {{date-r}},\nto paris : {{the-pwd}},\nto new-york : {{date-r}};\nI love travelling !",
-                "passwords":{
-                    "administrator":"The new password is when I went to Paris !",
-                    "my-phone":"The password of my phone is : {{pin-code}}"
-                }
-            }
-        }
-    else:
-        tree = {
-            "private":{
-                "holidays":"I went to london : {{date-r}},\nto paris : {{date-r}},\nto new-york : {{date-r}};\nI love travelling !",
-                "passwords":{
-                    "administrator":"KEEP IT SECRET ! The password is : {{the-pwd}}",
-                    "my-phone":"The password of my phone is : {{pin-code}}"
-                }
-            }
-        }
+    with open("Assets/mission_trees.json", "r") as f:
+        tree = json.load(f)
+    tree = tree[pwd_type]
+    tree = random.choice(tree)
     return tree
 
 PWD_TYPES = ["date","random"]
